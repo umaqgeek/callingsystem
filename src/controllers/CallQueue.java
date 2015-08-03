@@ -6,10 +6,12 @@ package controllers;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import views.MainQueue;
 import views.QueueCall;
-import views.VoiceOutput;
 
 /**
  *
@@ -24,13 +26,12 @@ public class CallQueue implements Runnable {
             while (true) {
                 synchronized (this) {
                     Timestamp ts = new Timestamp(new java.util.Date().getTime());
-                    DateFormat df = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+                    DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     
                     QueueCall.setClearTbl();
-                    int size_arr = QueueController.getName().size();
-                    if (size_arr > 0) {
-                        String object[][] = new String[size_arr][2];
-                        for (int i = 0; i < size_arr; i++) {
+                    if (QueueController.getName().size() > 0) {
+                        String object[][] = new String[QueueController.getName().size()][2];
+                        for (int i = 0; i < QueueController.getName().size(); i++) {
                             String str = QueueController.getName().get(i);
                             String s[] = str.split("\\|");
                             String name = s[1];
@@ -41,20 +42,43 @@ public class CallQueue implements Runnable {
                             object[i][1] = roomNo;
                         }
                         QueueCall.setData(object);
-                        for (int i = 0; i < size_arr; i++) {
+                        String dataJerit[][] = new String[QueueController.getName().size()][4];
+                        for (int i = 0; i < QueueController.getName().size(); i++) {
                             String str = QueueController.getName().get(i);
+                            int count = QueueController.getCount().get(i);
+                            QueueController.getCount().set(i, 0);
                             String s[] = str.split("\\|");
                             String name = s[1];
                             String doctor = s[2];
                             String roomNo = s[3];
+                            dataJerit[i][0] = name;
+                            dataJerit[i][1] = doctor;
+                            dataJerit[i][2] = roomNo;
+                            dataJerit[i][3] = count+"";
+                        }
+                        for (int i = 0; i < dataJerit.length; i++) {
+                            String name = dataJerit[i][0];
+                            String doctor = dataJerit[i][1];
+                            String roomNo = dataJerit[i][2];
+                            int count = 0;
+                            try {
+                                count = Integer.parseInt(dataJerit[i][3]);
+                            } catch (Exception e) {
+                                
+                            }
                             String ayatCakap = name.toLowerCase()+" Room number " + roomNo.toLowerCase();
                             if (roomNo.equals("Pharmacy")) {
                                 ayatCakap = name.toLowerCase()+", please collect your medication at pharmacy";
                             }
-                            if (QueueController.getCount().get(i) > 0) {
-                                VoiceOutput.getSound(ayatCakap);
-                                int count = QueueController.getCount().get(i) - 1;
-                                QueueController.getCount().set(i, count);
+                            while (count > 0) {
+                                try {
+//                                    VoiceOutput.getSound(ayatCakap);
+                                    VoiceOutput2.speak(ayatCakap);
+                                } catch (Exception et) {
+                                    Date newdate = new Date();
+                                    System.out.println("Time: "+df.format(newdate)+"You need an internet to google translate!!");
+                                }
+                                count -= 1;
                             }
                         }
                     } else {

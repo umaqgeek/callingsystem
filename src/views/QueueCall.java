@@ -6,8 +6,10 @@
 
 package views;
 
+import controllers.VoiceOutput;
 import controllers.CallQueue;
 import controllers.QueueController;
+import controllers.VoiceOutput2;
 import java.awt.Font;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -97,6 +99,7 @@ public class QueueCall extends javax.swing.JFrame {
         tbl_queue.getTableHeader().setFont( new Font( "Tahoma", 1, 48 ));
         tbl_queue.setRowHeight(80);
         f1.setSize(1366, 768);
+        QueueCall.cmbLanguage.setEnabled(false);
     }
     
     public static void startServer() {
@@ -229,9 +232,11 @@ public class QueueCall extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         if (!txtTestSound.getText().equals("")) {
-            VoiceOutput.getSound(txtTestSound.getText());
+//            VoiceOutput.getSound(txtTestSound.getText());
+            VoiceOutput2.speak(txtTestSound.getText());
         } else {
-            VoiceOutput.getSound("Test sound 1 2 3");
+//            VoiceOutput.getSound("Test sound 1 2 3");
+            VoiceOutput2.speak("Test sound 1 2 3");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
