@@ -6,8 +6,10 @@
 
 package views;
 
+import controllers.VoiceOutput;
 import controllers.CallQueue;
 import controllers.QueueController;
+import controllers.VoiceOutput2;
 import java.awt.Font;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -15,6 +17,7 @@ import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import maryTTS.MaryClientUser;
 import models.DBConn;
 import oms.rmi.server.MessageImplementation;
 
@@ -23,6 +26,9 @@ import oms.rmi.server.MessageImplementation;
  * @author End User
  */
 public class QueueCall extends javax.swing.JFrame {
+    
+    public final static String hostCall = "10.211.55.3";
+    public final static int portCall = 59125;
 
     /**
      * Creates new form QueueCall
@@ -97,6 +103,7 @@ public class QueueCall extends javax.swing.JFrame {
         tbl_queue.getTableHeader().setFont( new Font( "Tahoma", 1, 48 ));
         tbl_queue.setRowHeight(80);
         f1.setSize(1366, 768);
+        QueueCall.cmbLanguage.setEnabled(false);
     }
     
     public static void startServer() {
@@ -129,6 +136,8 @@ public class QueueCall extends javax.swing.JFrame {
         cmbLanguage = new javax.swing.JComboBox();
         txtTestSound = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        cbxServer = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CSS Calling System");
@@ -177,6 +186,10 @@ public class QueueCall extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Server : ");
+
+        cbxServer.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "127.0.0.1", "ecss.utem.edu.my", "biocore-stag.utem.edu.my" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -190,7 +203,11 @@ public class QueueCall extends javax.swing.JFrame {
                 .addComponent(txtTestSound, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addGap(40, 40, 40)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +216,9 @@ public class QueueCall extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(cmbLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTestSound, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jLabel2)
+                    .addComponent(cbxServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -229,9 +248,13 @@ public class QueueCall extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         if (!txtTestSound.getText().equals("")) {
-            VoiceOutput.getSound(txtTestSound.getText());
+//            VoiceOutput.getSound(txtTestSound.getText());
+//            VoiceOutput2.speak(txtTestSound.getText());
+            MaryClientUser.speak(cbxServer.getSelectedItem().toString(), portCall, txtTestSound.getText());
         } else {
-            VoiceOutput.getSound("Test sound 1 2 3");
+//            VoiceOutput.getSound("Test sound 1 2 3");
+//            VoiceOutput2.speak("Test sound 1 2 3");
+            MaryClientUser.speak(cbxServer.getSelectedItem().toString(), portCall, "Test sound 1 2 3");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -271,9 +294,11 @@ public class QueueCall extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JComboBox cbxServer;
     public static javax.swing.JComboBox cmbLanguage;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private java.awt.Label label1;
