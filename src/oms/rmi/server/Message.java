@@ -17,6 +17,7 @@ public interface Message extends Remote {
     //Vector getQueueCallingSystem() throws RemoteException;
     
     void setCall(String nama) throws RemoteException;
+    void setCallNo(String nama, String patientNo) throws RemoteException;
     
     void destroyCall(String nama) throws RemoteException;
 }

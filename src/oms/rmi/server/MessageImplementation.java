@@ -26,6 +26,11 @@ public class MessageImplementation extends UnicastRemoteObject implements Messag
         QueueController.getName().add(str_pdi);
         QueueController.getCount().add(3);
     }
+    
+    public void setCallNo(String str_pdi, String patientNo) throws RemoteException {
+        QueueController.getName().add(str_pdi);
+        QueueController.getCount().add(3);
+    }
 
     public void destroyCall(String pmino) throws RemoteException {
         int arr_size = QueueController.getName().size();

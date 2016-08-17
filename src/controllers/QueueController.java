@@ -13,10 +13,15 @@ import java.util.ArrayList;
 public class QueueController {
     
     private static ArrayList<String> name = new ArrayList<String>();
+    private static ArrayList<String> patientNo = new ArrayList<String>();
     private static ArrayList<Integer> count = new ArrayList<Integer>();
 
     public static ArrayList<String> getName() {
         return name;
+    }
+    
+    public static ArrayList<String> getPatientNo() {
+        return patientNo;
     }
 
     public static ArrayList<Integer> getCount() {

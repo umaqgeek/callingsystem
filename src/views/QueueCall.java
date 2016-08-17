@@ -50,14 +50,17 @@ public class QueueCall extends javax.swing.JFrame {
                 new Object[][]{},
                 new String[]{
                     "Name",
-                    "Room No"
+                    "Patient No.",
+                    "Queue Name"
                 }) {
 
             Class[] types = new Class[]{
                 java.lang.String.class,
+                java.lang.String.class,
                 java.lang.String.class
             };
             boolean[] canEdit = new boolean[]{
+                false,
                 false,
                 false
             };
@@ -77,14 +80,17 @@ public class QueueCall extends javax.swing.JFrame {
                 object,
                 new String[]{
                     "Name",
-                    "Room No"
+                    "Patient No.",
+                    "Queue Name"
                 }) {
 
             Class[] types = new Class[]{
                 java.lang.String.class,
+                java.lang.String.class,
                 java.lang.String.class
             };
             boolean[] canEdit = new boolean[]{
+                false,
                 false,
                 false
             };
@@ -100,7 +106,7 @@ public class QueueCall extends javax.swing.JFrame {
     }
     
     public static void setDesign(JFrame f1) {
-        tbl_queue.getTableHeader().setFont( new Font( "Tahoma", 1, 48 ));
+        tbl_queue.getTableHeader().setFont( new Font( "Tahoma", 1, 35 ));
         tbl_queue.setRowHeight(80);
         f1.setSize(1366, 768);
         QueueCall.cmbLanguage.setEnabled(false);
@@ -155,14 +161,14 @@ public class QueueCall extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Room No"
+                "Name", "Patient No.", "Queue Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -249,12 +255,12 @@ public class QueueCall extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (!txtTestSound.getText().equals("")) {
 //            VoiceOutput.getSound(txtTestSound.getText());
-//            VoiceOutput2.speak(txtTestSound.getText());
-            MaryClientUser.speak(cbxServer.getSelectedItem().toString(), portCall, txtTestSound.getText());
+            VoiceOutput2.speak(txtTestSound.getText());
+//            MaryClientUser.speak(cbxServer.getSelectedItem().toString(), portCall, txtTestSound.getText());
         } else {
 //            VoiceOutput.getSound("Test sound 1 2 3");
-//            VoiceOutput2.speak("Test sound 1 2 3");
-            MaryClientUser.speak(cbxServer.getSelectedItem().toString(), portCall, "Test sound 1 2 3");
+            VoiceOutput2.speak("Test sound 1 2 3");
+//            MaryClientUser.speak(cbxServer.getSelectedItem().toString(), portCall, "Test sound 1 2 3");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
